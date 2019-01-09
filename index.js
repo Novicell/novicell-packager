@@ -1,11 +1,16 @@
 const { exec } = require('child_process');
+const path = require('path');
+const dir = __dirname.replace(/ /g,"\\\ ")
 let packager;
 
 try {
     packager = require('../packager');
-    console.log("\x1b[34m", 'Options found... Distributing JS now');
     if (packager != null) {
-        child = exec('npm run build', {stdio: 1}, function(err, stdout, stderr) {
+        console.log("\x1b[34m", 'Options found... Distributing JS now');
+        child = exec('npm run build', {
+            stdio: 1,
+            cwd: __dirname
+        }, function(err, stdout, stderr) {
             if (err) throw err;
             else console.log('\x1b[0m', stdout);
         }).stderr.pipe(process.stderr);
