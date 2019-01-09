@@ -1,9 +1,15 @@
+const { exec } = require('child_process');
+let packager;
+
 try {
     packager = require('../packager');
     console.log("\x1b[34m", 'Options found... Distributing JS now');
-    entryReceived = packager.entry;
-    outputReceived = packager.output;
-    child = exec('npm run build', {stdio: 1}).stderr.pipe(process.stderr);
+    if (packager != null) {
+        child = exec('npm run build', {stdio: 1}, function(err, stdout, stderr) {
+            if (err) throw err;
+            else console.log('\x1b[0m', stdout);
+        }).stderr.pipe(process.stderr);
+    }
 } catch (e) {
     if (e instanceof SyntaxError || e instanceof TypeError) {
         console.log("\x1b[31m\x1b[40m", 'Either a typing mistake or incorrect syntax of packager.js file');

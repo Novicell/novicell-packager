@@ -1,9 +1,13 @@
-var glob = require("glob")
-
+const glob = require("glob");
+const path = require('path');
+const options = require('../packager');
+const receivedOutDir = options.output || 'dist';
+const receivedEntry = options.entry;
 
 module.exports = {
     mode: 'production',
-    entry: path.join(__dirname, '/../', receivedOutDir),
+    watch: false,
+    entry: glob.sync(path.join(__dirname, '/../', receivedEntry)),
     output: {
         path: path.join(__dirname, '/../', receivedOutDir),
         filename: 'app.bundle.js'
