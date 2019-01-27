@@ -1,6 +1,5 @@
 const { exec } = require('child_process');
 const path = require('path');
-const dir = __dirname.replace(/ /g,"\\\ ")
 let packager;
 
 try {
