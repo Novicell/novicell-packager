@@ -1,4 +1,4 @@
-### Hi from Packager!
+# 📦 Novicell Packager
 
 ### Description
 Novicell-packager helps to finalize your small javascript project/module. It's a boilerplate webpack setup that bundles, creates a **dist** folder with ready-to-distribute file.
