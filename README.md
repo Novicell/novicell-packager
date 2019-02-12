@@ -1,9 +1,9 @@
 # 📦 Novicell Packager
 
-### Description
+## Description
 Novicell-packager helps to finalize your small javascript project/module. It's a boilerplate webpack setup that bundles, creates a **dist** folder with ready-to-distribute file.
 
-### How to use
+## Setup
 
 * Make sure you have node installed
 * Clone this repo to inside your module
@@ -33,4 +33,12 @@ ouput: 'dirName'
 
 * Finally, run ``novicell-packager/index.js`` as a node script:
 ``node novicell-packager/index.js``
+
+* Additionally, add packager to git ignore:
+```
+novicell-packager
+packager.js
+```
+.gitignore
+
 
