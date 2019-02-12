@@ -9,6 +9,8 @@ module.exports = {
     watch: false,
     entry: glob.sync(path.join(__dirname, '/../', receivedEntry)),
     output: {
+        library: 'app',
+        libraryTarget: 'commonjs2',
         path: path.join(__dirname, '/../', receivedOutDir),
         filename: 'app.bundle.js'
     },
