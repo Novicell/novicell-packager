@@ -1,27 +1,82 @@
-const { exec } = require('child_process');
 const path = require('path');
-let packager;
+const fs = require('fs')
+const workingDir = process.cwd();
+const webpack = require("webpack");
+const {
+    version
+} = require('./package.json')
+const inquirer = require('inquirer');
+const ora = require('ora');
+const chalk = require('chalk');
+const clear = require('clear');
+const figlet = require('figlet');
 
-try {
-    packager = require('../packager');
-    if (packager != null) {
-        console.log("\x1b[34m", 'Options found... Distributing JS now');
-        child = exec('npm run build', {
-            stdio: 1,
-            cwd: __dirname
-        }, function(err, stdout, stderr) {
-            if (err) throw err;
-            else console.log('\x1b[0m', stdout);
-        }).stderr.pipe(process.stderr);
-    }
-} catch (e) {
-    if (e instanceof SyntaxError || e instanceof TypeError) {
-        console.log("\x1b[31m\x1b[40m", 'Either a typing mistake or incorrect syntax of packager.js file');
-        console.log('\x1b[0m', '- check Novicell-packager for more information');
-    } else {
-        console.log("\x1b[31m\x1b[40m", 'Novicell-Packager: Options file NOT found!');
-        console.log('\x1b[0m', '- Please make sure that you have options.js file in root directory');
-        console.log(' - options.js should export input, output directories');
-        console.log(' - check Novicell-packager for more information');
-    }
+module.exports = () => {
+
+    clear();
+    console.log(
+        chalk.hex('#C80046')(
+            figlet.textSync(`packager`)
+        ),
+        chalk.hex('#C80046')(version)
+    )
+    inquirer.prompt([{
+                type: 'input',
+                name: 'entryFile',
+                message: 'File name:'
+            },
+            {
+                type: 'confirm',
+                name: 'hasExports',
+                message: 'Does your file have es6 exports?:'
+            }
+        ])
+        .then(answers => {
+            const spinner = ora().start()
+            const filePath = path.join(workingDir, answers.entryFile);
+            const fileName = path.basename(filePath);
+            let fileExists;
+            fs.statSync(filePath, (err, stats) => {
+                fileExists = stats.isFile(filePath);
+                console.log(stats.isFile(filePath));
+                if (err) {
+                    console.log(err);
+                    return
+                }
+            });
+            if (fileExists) {
+                console.log(chalk.hex('#75BC7F')('file found: ' + fileName));
+                webpack({
+                    mode: 'production',
+                    watch: false,
+                    entry: filePath,
+                    output: {
+                        library: 'app',
+                        libraryTarget: 'commonjs2',
+                        path: path.join(workingDir, 'dist'),
+                        filename: 'app.bundle.js'
+                    },
+                    module: {
+                        rules: [{
+                            test: /\.m?js$/,
+                            exclude: /(node_modules|bower_components)/,
+                            use: {
+                                loader: path.join(__dirname, 'node_modules/babel-loader'),
+                                options: {
+                                    presets: [path.join(__dirname, 'node_modules/@babel/preset-env')]
+                                }
+                            }
+                        }]
+                    }
+                }, (err, stats) => {
+                    if (err || stats.hasErrors()) {
+                        console.error(err);
+                    }
+                    spinner.stop()
+                });
+            } else {
+                console.log(chalk.hex('#C80046')('File NOT found: ' + filePath));
+                spinner.stop();
+            }
+        });
 }
