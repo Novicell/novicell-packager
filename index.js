@@ -55,6 +55,21 @@ module.exports = () => {
                         path: path.join(workingDir, 'dist'),
                         filename: 'app.bundle.js'
                     },
+                    resolve: {
+                        modules: [
+                            path.resolve(workingDir, "node_modules"),
+                        ],
+                        alias: {
+                            'TweenLite': 'gsap/src/minified/TweenLite.min.js',
+                            'TweenMax': 'gsap/src/minified/TweenMax.min.js',
+                            'TimelineLite': 'gsap/src/minified/TimelineLite.min.js',
+                            'TimelineMax': 'gsap/src/minified/TimelineMax.min.js',
+                            'ScrollMagic': 'scrollmagic/scrollmagic/minified/ScrollMagic.min.js',
+                            'animation.gsap': 'scrollmagic/scrollmagic/minified/plugins/animation.gsap.min.js',
+                            'debug.addIndicators': 'scrollmagic/scrollmagic/minified/plugins/debug.addIndicators.min.js'
+                        }
+                    },
+                    stats: 'errors-only',
                     module: {
                         rules: [{
                             test: /\.m?js$/,
@@ -69,6 +84,7 @@ module.exports = () => {
                     }
                 }, (err, stats) => {
                     if (err || stats.hasErrors()) {
+                        console.log(stats.compilation.errors)
                         console.error(err);
                     }
                     spinner.stop()
