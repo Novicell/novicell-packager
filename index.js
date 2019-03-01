@@ -12,7 +12,6 @@ const clear = require('clear');
 const figlet = require('figlet');
 
 module.exports = () => {
-
     clear();
     console.log(
         chalk.hex('#C80046')(
@@ -36,14 +35,14 @@ module.exports = () => {
             const filePath = path.join(workingDir, answers.entryFile);
             const fileName = path.basename(filePath);
             let fileExists;
-            fs.statSync(filePath, (err, stats) => {
-                fileExists = stats.isFile(filePath);
-                console.log(stats.isFile(filePath));
-                if (err) {
-                    console.log(err);
-                    return
-                }
-            });
+            try {
+                fileExists = fs.statSync(filePath).isFile();
+            } catch (err) {
+                console.log(chalk.hex('#C80046')(`File NOT found: ${filePath}`));
+                spinner.stop();
+                return;
+            }
+            
             if (fileExists) {
                 console.log(chalk.hex('#75BC7F')('file found: ' + fileName));
                 webpack({
@@ -75,7 +74,7 @@ module.exports = () => {
                     spinner.stop()
                 });
             } else {
-                console.log(chalk.hex('#C80046')('File NOT found: ' + filePath));
+                console.log(chalk.hex('#C80046')(`File NOT found: ${filePath}`));
                 spinner.stop();
             }
         });
