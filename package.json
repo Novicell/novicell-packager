@@ -14,7 +14,7 @@
     "url": "git+https://github.com/ankeris/novicell-packager.git"
   },
   "author": "Juozas Rastenis",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ankeris/novicell-packager/issues"
   },
