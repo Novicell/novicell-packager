@@ -13,11 +13,11 @@ const figlet = require('figlet');
 const rollup = require('rollup').rollup;
 const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');
-const uglify = require('rollup-plugin-uglify').uglify;
 const commonjs = require('rollup-plugin-commonjs');
+const { terser } = require("rollup-plugin-terser");
 
 // Additional
-const { version } = require('../package.json');
+const { version, description } = require('../package.json');
 const cliQuestions = require('./questions');
 const spinner = ora();
 const separator = '----------------------------------------'
@@ -29,7 +29,7 @@ const terminalWrite = (text, color) => {
 module.exports = () => {
     clear();
     terminalWrite(figlet.textSync('packager'), '#C80046');
-    terminalWrite(version + separator, '#C80046');
+    terminalWrite(separator + version, '#C80046');
 
     cliQuestions()
     .then(answers => {
@@ -71,7 +71,7 @@ module.exports = () => {
                             ]
                         ],
                     }),
-                    uglify()
+                    terser()
                 ]
             };
 
@@ -85,16 +85,6 @@ module.exports = () => {
                 file: path.join(dist, `${prepNameForBundle}.${format}.js`),
                 format,
                 name: fileName,
-                globals: {
-                    'TweenLite': 'gsap/src/minified/TweenLite.min.js',
-                    'TweenMax': 'gsap/src/minified/TweenMax.min.js',
-                    'TimelineMax': 'gsap/src/minified/TimelineMax.min.js',
-                    "TimelineLite": path.resolve('node_modules', 'gsap/src/uncompressed/TimelineLite.js'),
-                    "TimelineMax": path.resolve('node_modules', 'gsap/src/uncompressed/TimelineMax.js'),
-                    "ScrollMagic": path.resolve('node_modules', 'scrollmagic/scrollmagic/uncompressed/ScrollMagic.js'),
-                    "animation.gsap": path.resolve('node_modules', 'scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap.js'),
-                    "debug.addIndicators": path.resolve('node_modules', 'scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators.js')
-                }
             };
             buildBundle(inputOptions, outputOptions)
             .then(() => {
@@ -137,54 +127,3 @@ function getFormat(answerFormat) {
           return 'umd';
       }
 }
-
-// webpack({
-//     mode: answers.environment,
-//     watch: false,
-//     entry: filePath,
-//     output: {
-//         libraryTarget: 'commonjs2',
-//         path: path.join(workingDir, 'dist'),
-//         filename: '[name].bundle.js'
-//     },
-//     optimization: {
-//         minimizer: [
-//             new UglifyJsPlugin({
-//                 uglifyOptions: {
-//                     output: {
-//                         comments: false
-//                     }
-//                 }
-//             })
-//         ],
-//     },
-//     resolve: {
-//         modules: [
-//             path.resolve(workingDir, "node_modules"),
-//         ],
-//         alias: {
-//             'TweenLite': 'gsap/src/minified/TweenLite.min.js',
-//             'TweenMax': 'gsap/src/minified/TweenMax.min.js',
-//             'TimelineMax': 'gsap/src/minified/TimelineMax.min.js',
-//         }
-//     },
-//     stats: 'errors-only',
-//     module: {
-//         rules: [{
-//             test: /\.m?js$/,
-//             exclude: /(node_modules|bower_components)/,
-//             use: {
-//                 loader: path.join(__dirname, 'node_modules/babel-loader'),
-//                 options: {
-//                     presets: [path.join(__dirname, 'node_modules/@babel/preset-env')]
-//                 }
-//             }
-//         }]
-//     }
-// }, (err, stats) => {
-//     if (err || stats.hasErrors()) {
-//         console.log(stats.compilation.errors)
-//         console.error(err);
-//     }
-//     spinner.stop()
-// });

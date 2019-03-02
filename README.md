@@ -1,16 +1,16 @@
 # 📦 Novicell Packager
 
-**Package and prepare your package for distribution - effortlessly**
+**Package and prepare your module for distribution - effortlessly**
 
 ## Usage
 
-Use it as a CLI tool in your terminal
+Use it as a CLI tool in your terminal. It will compile and minify your JavaScript module. Supports ES2015 tree shaking.
 
 ### Install with npm
 
 Requires NPM version [6.4.0 or higher](https://nodejs.org/en/download/releases/)
 
-Install it globally to run in any directory
+Install novicell-packager globally
 
 ```bash
 npm install -g novicell-packager
@@ -18,7 +18,8 @@ npm install -g novicell-packager
 
 ## Setup
 
-Simply run 'novicell-packager' terminal command inside root folder of your project
+Simply run 'novicell-packager' terminal command inside root folder of your project.
+Then follow the interface options.
 
 ## Example
 
@@ -28,15 +29,16 @@ novicell-packager
 
 # Answer following questions
 ? File name: src/scripts/app.js
-? Does your file have es6 exports?: Y
 ```
 
 ## Options 
 
-```bash
-FileName # Either the file in the same directory (file.js) or nested src/js/hello.js
-HasExports # Use if you have ES6 Exports, that can be imported in application: import { func } from 'my-package'
-```
+Output formats:
+* amd – Asynchronous Module Definition. [More about amd..](https://github.com/amdjs/amdjs-api/blob/master/AMD.md)
+* cjs – CommonJS, often uses ***module.exports*** syntax. Suitable for Nodejs. [Article about cjs](https://flaviocopes.com/commonjs/)
+* esm – ES module. Often uses ***import {} export {}*** syntax. [github page](https://github.com/standard-things/esm)
+* iife – A self-executing ***!function(){...}()*** [Article about iife's](https://medium.com/@vvkchandra/essential-javascript-mastering-immediately-invoked-function-expressions-67791338ddc6)
+* umd – Universal Module Definition, works as amd, cjs and iife all in one
 
 ## Contribution
 
