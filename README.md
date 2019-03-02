@@ -35,9 +35,9 @@ novicell-packager
 
 Output formats:
 * amd – Asynchronous Module Definition. [More about amd..](https://github.com/amdjs/amdjs-api/blob/master/AMD.md)
-* cjs – CommonJS, often uses ***module.exports*** syntax. Suitable for Nodejs. [Article about cjs](https://flaviocopes.com/commonjs/)
-* esm – ES module. Often uses ***import {} export {}*** syntax. [github page](https://github.com/standard-things/esm)
-* iife – A self-executing ***!function(){...}()*** [Article about iife's](https://medium.com/@vvkchandra/essential-javascript-mastering-immediately-invoked-function-expressions-67791338ddc6)
+* cjs – CommonJS, often uses ***module.exports*** syntax. Suitable for Nodejs. [Article about cjs..](https://flaviocopes.com/commonjs/)
+* esm – ES module. Often uses ***import {} export {}*** syntax. [github page..](https://github.com/standard-things/esm)
+* iife – A self-executing ***!function(){...}()*** [Article about iife's..](https://medium.com/@vvkchandra/essential-javascript-mastering-immediately-invoked-function-expressions-67791338ddc6)
 * umd – Universal Module Definition, works as amd, cjs and iife all in one
 
 ## Contribution
