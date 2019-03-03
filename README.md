@@ -8,7 +8,7 @@ Use it as a CLI tool in your terminal. It will compile and minify your JavaScrip
 
 ### Install with npm
 
-Requires NPM version [6.4.0 or higher](https://nodejs.org/en/download/releases/)
+Requires NPM version [7.6.0 or higher](https://nodejs.org/en/download/releases/)
 
 Install novicell-packager globally
 
